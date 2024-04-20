@@ -17,7 +17,6 @@ void AMovingPlatform::BeginPlay()
 	
 	StartLocation = GetActorLocation();
 
-	
 }
 
 // Called every frame
@@ -33,16 +32,18 @@ void AMovingPlatform::MovePlatform(float DeltaTime)
 {
 	if (ShouldPlatformReturn())
 	{
+		//Prevent Moving Too Far When It Reach Maximum Disatance
 		FVector MoveDirection = PlatformVelocity.GetSafeNormal();
-		StartLocation = StartLocation + MoveDirection * ReturningMaxDistance;
-		SetActorLocation(StartLocation);
+		FVector MaxLocation = StartLocation + MoveDirection * ReturningMaxDistance;
+		SetActorLocation(MaxLocation);
+
+		//Change Direction
 		PlatformVelocity = -PlatformVelocity;
 	}
 	else
 	{
-		FVector CurrentLocation = GetActorLocation();
-		CurrentLocation = CurrentLocation + (PlatformVelocity * DeltaTime);
-		SetActorLocation(CurrentLocation);
+		FVector NewLocation = GetActorLocation() + (PlatformVelocity * DeltaTime);
+		SetActorLocation(NewLocation);
 	}
 }
 
