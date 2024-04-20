@@ -9,12 +9,16 @@ AMovingPlatform::AMovingPlatform()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+
 }
 
 // Called when the game starts or when spawned
 void AMovingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	StartLocation = GetActorLocation();
+
 	
 }
 
@@ -33,7 +37,15 @@ void AMovingPlatform::Tick(float DeltaTime)
 
 	// Send Platform Back If Gone Too Far
 		// Check How Far We've Moved
+	float DistanceMoved = FVector::Distance(StartLocation, CurrentLocation);
 		// Reverse Direction Of Motion If Gone Too Far
 
+	if (DistanceMoved > ReturningMaxDistance)
+	{
+		FVector MoveDirection = PlatformVelocity.GetSafeNormal();
+		StartLocation = StartLocation + MoveDirection * ReturningMaxDistance;
+		SetActorLocation(StartLocation);
+		PlatformVelocity = -PlatformVelocity;
+	}
 }
 

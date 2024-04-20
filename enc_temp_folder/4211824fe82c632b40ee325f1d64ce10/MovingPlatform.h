@@ -26,4 +26,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = "MovingPlatform")
 	FVector PlatformVelocity = FVector(100, 0, 0);
 
+	UPROPERTY(EditAnywhere, Category = "MovingPlatform")
+	float ReturningMaxDistance = 100.f;
+
+	UPROPERTY(Transient)
+	FVector StartLocation;
+
 };
